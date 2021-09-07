@@ -19,10 +19,23 @@ class WordFinder:
         self.words = file.readlines()
         self.words = [word.replace(
             "\n", "") if word.endswith("\n") else word for word in self.words]
+            # strip
         print(f"{len(self.words)} words read")
 
     def random(self):
         """pick a random word from list of words"""
         random_int = randint(0, len(self.words)-1)
-
         return self.words[random_int]
+
+class RandomWordFinder(WordFinder):
+    """Subclass of WordFinder where comments and lines are parsed out"""
+
+    def __init__(self, path):
+        super().__init__(path)
+    
+    def read_words(self):
+        """Read file and create list of words in file but ignore comments and line breaks. 
+        Returns number of words read"""
+        super().read_words()
+        self.words = [word for word in self.words if not word.startswith("#") and word != ""]
+
